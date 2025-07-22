@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+      /* CSS exclusively for the provided HTML structure */
+
+/* Container */
+.container {
+  position: relative;
+  width: 90%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color:rgb(243, 236, 227);
+   margin: 0 auto;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color:white; 
+  padding: 10px 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  height: 60px;
+  width:65px;
+  margin-left: 30px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 40px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  background-color:darkcyan;
+}
+
+/* Hero Section */
+.back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height:400px;
+  
+  padding: 20px;
+  background: url("image/back.jpg") no-repeat center center;
+  background-size: cover;
+  text-align: center;
+  color:antiquewhite;
+  text-shadow: #d4c766;
+
+}
+
+.text {
+  padding: 20px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 40px;
+  max-width: 600px;
+  background-color:rgba(0, 0, 0, 0.26);
+}
+
+.text h1 {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.text p {
+  font-size: 25px;
+  font-style: italic;
+}
+
+
+
+/* Trending Destination */
+.destination {
+  text-align: center;
+  padding: 60px 20px;
+  background: url('/images/world-map-light.svg') no-repeat center 80%;
+  background-size: 120% auto;
+}
+
+.destination h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  color: #333;
+  position: relative;
+}
+
+.destination h1::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #ffc107;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.destination h3 {
+  font-size: 1.2rem;
+  color: gray;
+  font-weight: 300;
+  margin-top: 0;
+}
+
+.card-grid {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+/* Amenities Scroll Section */
+.scroll-wrapper {
+  width: 80%;
+  margin: 35px auto 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.scroll-wrapper h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  position: relative;
+}
+
+.scroll-wrapper h1::after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: #35a6d4;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.scroll-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 30s linear infinite;
+  pointer-events: none;
+}
+
+.scroll-item {
+  width: 350px;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  flex-shrink: 0;
+  margin-right: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-text {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  background-color:rgb(249, 224, 195);
+  padding: 40px 80px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  margin-top: 35px;
+  box-sizing: border-box;
+}
+
+.footer .ft1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #d4c766;
+  padding-bottom: 20px;
+}
+
+.footer .ft1 .ft11 h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #222;
+}
+
+.footer .ft1 .ft12 ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.footer .ft1 .ft12 ul li i {
+  color: #333;
+  transition: color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.footer .ft1 .ft12 ul li i:hover {
+  color:crimson;
+  transform: scale(1.2);
+}
+
+.footer .ft2 {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer .ft2 .ft21 {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer .ft2 .ft21 ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer .ft2 .ft21 li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #444;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.footer .ft2 .ft21 li:hover {
+  color:darkred;
+}
+
+.footer .ft2 .ft21 h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .fields-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .text h1 {
+    font-size: 32px;
+  }
+
+  .text p {
+    font-size: 18px;
+  }
+
+  .form-group input,
+  .form-group select {
+    min-width: 200px;
+  }
+
+  .scroll-item {
+    width: 80%;
+    height: 300px;
+  }
+
+  .footer {
+    padding: 30px 20px;
+    margin-top: 50px;
+  }
+
+  .footer .ft1 {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .footer .ft2 {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+  </style>
+
+ <script src="/dateValidation.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="container">
+  <div class="navbar">
+    <img src="/image/logo1.jpeg" alt="image not found" class="logo">
+    <ul class="nav-links">
+      <li><a href="/signin"><i class="fa fa-user-circle-o" style="font-size:26px"></i> LOGIN</a></li>
+    </ul> 
+  </div>
+ 
+
+ <!-- <div class="back">
+ <div class="booking-form">
+    <div class="fields-wrapper">
+      <div class="form-group" onsubmit="return validateDate()">
+        <label for="checkin">Check-in :</span></label>
+        <input type="date" id="checkin" name="checkin"  onchange="validateDate()">
+      </div>
+      <div class="form-group" onsubmit="return validateDate()" onchange="validateDate()">
+        <label for="checkout">Check-out :</span></label>
+        <input type="date" id="checkout" name="checkout">
+      </div>
+      <p id="date-error" style="color: red;"></p>
+      <div class="form-group">
+        <label for="adults">Adults:</label>
+        <select id="adults" name="adults">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="children">Children:</label>
+        <select id="children" name="children">
+          <option>0</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3+</option>
+        </select>
+      </div>
+      <button class="search-btn">SEARCH</button>
+    </div>
+  </div>
+  </div>
+-->
+
+<div class="back">
+   <div class="text">
+   <h1>Find Your Next Stay</h1>
+  <p>Search low prices on hotels and much more....</p>
+ </div>
+  
+</div>
+
+
+
+<div class="destination">
+  <h1> Trending Destination</h1>
+  <h3> Most Popular Choices For Travelers From India</h3>
+  </div>
+  <section class="card-grid">
+  <div class="card">
+    <img src="/image/image1.jpeg" alt="New Delhi">
+    <div class="overlay">Mumbai </div>
+  </div>
+  <div class="card">
+    <img src="/image/image2.jpeg" alt="Bangalore">
+    <div class="overlay">Delhi </div>
+  </div>
+  <div class="card">
+    <img src="/image/image4.jpeg" alt="Mumbai">
+    <div class="overlay">Varanasi </div>
+  </div>
+   <div class="card">
+    <img src="/image/image5.jpeg" alt="Mumbai">
+    <div class="overlay">Ladakh </div>
+  </div>
+   <div class="card">
+    <img src="/image/image6.jpeg" alt="Mumbai">
+    <div class="overlay">Odhisha</div>
+  </div> <div class="card">
+    <img src="/image/image7.jpeg" alt="Mumbai">
+    <div class="overlay">Himachal</div>
+  </div>
+  <div class="card">
+    <img src="/image/image8.jpeg" alt="New Delhi">
+    <div class="overlay">Kashmir</div>
+  </div>
+   <div class="card">
+    <img src="/image/image9.jpeg" alt="New Delhi">
+    <div class="overlay">Goa </div>
+  </div>
+</section>
+
+<div class="scroll-wrapper">
+  <h1>Our Amenities</h1>
+  <div class="scroll-container">
+    <div class="scroll-track">
+      <!-- Original items -->
+      <div class="scroll-item" style="background-image: url('/image/image10.jpeg');"><div class="img-text">Apartment</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image11.jpeg');"><div class="img-text">Resort</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image12.jpeg');"><div class="img-text">Spa</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image13.jpeg');"><div class="img-text">Houseboat</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image14.jpeg');"><div class="img-text">Family friendly</div></div>
+
+      <!-- Duplicate items for seamless scroll -->
+      <div class="scroll-item" style="background-image: url('/image/image10.jpeg');"><div class="img-text">Apartment</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image11.jpeg');"><div class="img-text">Resort</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image12.jpeg');"><div class="img-text">Spa</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image13.jpeg');"><div class="img-text">Houseboat</div></div>
+      <div class="scroll-item" style="background-image: url('/image/image14.jpeg');"><div class="img-text">Family friendly</div></div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+    <div class="ft1">
+        <div class="ft11">
+            <h1>Hotels.com</h1>
+        </div>
+        <div class="ft12">
+            <ul>
+                <li><i class="fa fa-facebook-official" style="font-size:24px"></i></li>
+                <li><i class="fa fa-instagram" style="font-size:24px"></i></li>
+                <li><i class="fa fa-linkedin-square" style="font-size:24px"></i></li>
+                <li><i class="fa fa-twitter-square" style="font-size:24px"></i></li>
+                <li><i class="fa fa-youtube-play" style="font-size:24px"></i></li>
+            </ul>
+        </div>
+    </div>
+    <div class="ft2">
+        <div class="ft21">
+                <ul>
+                    <li>Comapny</li>
+                    <li>Jobs</li>
+                    <li>Press</li>
+                    <li>Investor ralations</li>
+                    <li>Mobile apps - searching on the go</li>
+                    <li>Hotels.com for hoteliers</li>
+                </ul>
+        </div>
+        <div class="ft21">
+            <u>
+                <li>Help</li>
+                <li>Learn how Hotels.com works</li>
+                <li>Term and conditions</li>
+                <li>Legal information</li>
+                <li>Do Not Sell My Personal Information</li>
+                <li>Privacy notice</li>
+                <li>DSA information</li>
+                <li>Cybersecurity</li>
+                <li>Vulnerability Disclouser Programme</li>
+            </u>
+        </div>
+        <div class="ft21">
+            <h3>Get exclusive information to your next stay
+            </h3>
+        </div>
+    </div>
+</div>
+
+    </div>
+</body>
+</html>

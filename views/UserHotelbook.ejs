@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hotel Admin Template</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar {
+      margin-bottom: 15px;
+    }
+
+    .nav {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-link {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      color: #4B0082;
+      padding: 8px 12px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+      background: #4B0082;
+      border-radius: 5px;
+    }
+
+    #citySearchBox {
+      display: none;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    #citySearchBox input {
+      padding: 10px 15px;
+      font-size: 16px;
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      outline: none;
+      margin-bottom: 10px;
+    }
+
+    #citySearchBox input:focus {
+      border-color: #4B0082;
+    }
+
+    .result-container {
+      margin-top: 30px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+
+    .hotel-box {
+      padding: 15px;
+      border: 1px solid #ddd;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .hotel-box h3 {
+      margin: 0 0 8px;
+      color: #4B0082;
+    }
+
+    .hotel-box p {
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul class="nav">
+      <li><a class="nav-link" onclick="showCitySearch()">Search Hotels</a></li>
+    </ul>
+  </nav>
+
+  <!-- City & Area Search Box -->
+  <div id="citySearchBox">
+    <input type="text" id="cityInput" placeholder="Type city name..." onkeyup="liveSearch()" />
+    <input type="text" id="areaInput" placeholder="Type area name..." onkeyup="liveSearch()" />
+  </div>
+
+  <!-- AJAX Results -->
+  <div class="result-container" id="results">
+    <!-- AJAX-loaded content will appear here -->
+  </div>
+</div>
+
+<script>
+  function showCitySearch() {
+    document.getElementById("citySearchBox").style.display = "block";
+  }
+
+  function liveSearch() {
+    const city = document.getElementById('cityInput').value.trim();
+    const area = document.getElementById('areaInput').value.trim();
+    const results = document.getElementById('results');
+
+    if (city.length === 0 && area.length === 0) {
+      results.innerHTML = '';
+      return;
+    }
+fetch(`/hotelBox?city=${encodeURIComponent(city)}&area=${encodeURIComponent(area)}`)
+
+      .then(response => response.text())
+      .then(data => {
+        results.innerHTML = data;
+      })
+      .catch(err => {
+        results.innerHTML = '<p style="color:red;">Error fetching hotels.</p>';
+        console.error(err);
+      });
+  }
+</script>
+
+</body>
+</html>

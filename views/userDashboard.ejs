@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Panel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-image: url("image/back.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      height: 100vh;
+      overflow: hidden;
+      
+    }
+
+    .navigation {
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      padding: 15px 30px;
+      background: linear-gradient(to right,#654ea3, #eaafc8) ;
+      color: #222;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navigation h3 {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .profile-container {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile-icon {
+      font-size: 50px;
+      color: #333;
+    }
+
+    .profile-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 35px;
+      background-color: #fff;
+      color: #333;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      width: 220px;
+      z-index: 10;
+    }
+
+    .profile-menu p {
+      margin: 6px 0;
+      font-size: 14px;
+    }
+
+    .profile-menu a {
+      text-decoration: none;
+      color: #009688;
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex-wrap: nowrap;
+      height: calc(100vh - 70px);
+      overflow: hidden;
+    }
+
+    .sidebar-user {
+      width: 220px;
+      background: rgba(0, 0, 0, 0.4);
+      padding-top: 20px;
+      color: #fff;
+      border-right: 1px solid #ccc;
+      position: sticky;
+      top: 0;
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+      height: 100%;
+    }
+
+    .sidebar-user ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar-user li {
+      padding: 14px 20px;
+      font-size: 16px;
+      border-bottom: 1px solid #555;
+      transition: background 0.3s ease;
+    }
+
+    .sidebar-user li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar-user li:hover {
+      background-color: #00796b;
+    }
+
+    .sidebar-user li:hover a {
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .main-body-user {
+      flex: 1;
+      padding: 40px;
+      color: #222;
+      background: rgba(255, 255, 255, 0.8);
+      height: 100%;
+      overflow: auto;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .main-body-user h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: purple;
+    }
+
+    .main-body-user::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+
+    @media screen and (max-width: 991px) {
+      .dashboard-container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .sidebar-user {
+        width: 100%;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .sidebar-user li {
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .main-body-user {
+        padding: 30px 20px;
+        height: auto;
+      }
+
+      .navigation {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navigation h3 {
+        font-size: 20px;
+      }
+
+      .profile-container {
+        margin-top: 10px;
+      }
+
+      .profile-icon {
+        font-size: 30px;
+      }
+
+      .main-body-user h1 {
+        font-size: 24px;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .sidebar-user li {
+        padding: 8px;
+        font-size: 13px;
+      }
+
+      .profile-icon {
+        font-size: 24px;
+      }
+
+      .main-body-user h1 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <div class="navigation">
+    <h3>User Dashboard</h3>
+    <div class="profile-container">
+      <span class="profile-icon">&#9786;</span>
+      <div class="profile-menu">
+        <p>Hello, User!</p>
+        <a href="/user/profile">My Profile</a>
+        <a href="/user/logout">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="dashboard-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar-user">
+      <ul>
+         <li><a class="nav-link" href="/hotelsearch">🏨 Browse Hotels</a></li>
+        <li><a class="nav-link" href="/addreview">⭐ Rating and Review</a></li>
+        <li><a class="nav-link" href="/user/recommendations">💡 Recommended</a></li>
+       <li><a class="nav-link" href="/logout-form">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-body-user">
+      <h1>Welcome to User Dashboard</h1>
+      <p>This is your personalized user space where you can manage bookings, view hotels, and more.</p>
+    </main>
+
+  </div>
+
+</body>
+</html>

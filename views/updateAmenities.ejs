@@ -1,0 +1,166 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Update Amenity</title>
+  <style>
+ /* Base Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Background image with black overlay */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -2;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color:lavender; /* Black overlay */
+  z-index: -1;
+}
+
+/* Form Box */
+.box {
+  width: 100%;
+  max-width: 400px;
+  padding: 25px 20px;
+  margin-top: 80px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+  z-index: 2;
+}
+
+/* Form Styling */
+.box form {
+  width: 100%;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="submit"],
+select.form-control {
+  width: 100%;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  color: #666;
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+input[type="submit"] {
+  width: 100%;
+  height: 40px;
+  padding: 10px 0;
+  background: linear-gradient(to right, #4B0082, #9370DB, #D8BFD8);
+  color: black;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover {
+ background: linear-gradient(to right, #4B0082, #9370DB, #D8BFD8);
+  transform: scale(1.02);
+}
+
+/* Validation Message */
+span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: red;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .box {
+    padding: 20px 15px;
+  }
+
+  input[type="submit"] {
+    font-size: 0.95rem;
+    height: 38px;
+  }
+}
+</style>
+</head>
+<body>
+
+  <div class="box">
+    <form action="/updateAmenitySave" method="POST">
+
+      <h2 style="margin-bottom: 20px; color: black;text-align:center">Update Amenity</h2>
+
+      <div class="form-group">
+        <input type="hidden" name="amenity_id" value="<%= singleAmenity.amenity_id %>"/>
+      </div> 
+
+      <div class="form-group">
+        <input type="text" name="amenity_name" value="<%= singleAmenity.amenity_name %>" placeholder="Enter Amenity Name" required />
+      </div>
+
+      <div class="form-group">
+        <input type="submit" value="Update Amenity" />
+      </div>
+
+      <% if (typeof msg !== 'undefined') { %>
+        <span><%= msg %></span>
+      <% } %>
+
+    </form>
+  </div>
+
+</body>
+</html>

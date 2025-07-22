@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <style>
+    
+.loginform {
+  margin: 20px 40px;
+  background-color: hwb(224 63% 17% / 0.886);
+  margin-left: 100px;;
+  padding: 40px;
+  width: 80%;
+  height: 600px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(100, 149, 237, 0.6); /* cornflowerblue shadow */
+}
+
+form {
+  width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #fdf5e6;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+  font-family: Arial, sans-serif;
+}
+
+form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="submit"] {
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #999;
+  margin-top: 5px;
+}
+
+form input[type="submit"] {
+  width:375px;
+  background-color:purple;
+  font-weight: bold;
+  cursor: pointer;
+  color:white;
+  transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+  background-color: #d2b48c;
+}
+
+.toggle-link {
+  text-align: center;
+  display: block;
+  margin-top: 10px;
+  color: black;
+  font-weight: bold;
+}
+
+.toggle-link a {
+  color:blue;
+  text-decoration: none;
+}
+
+.toggle-link a:hover {
+  text-decoration: underline;
+}
+  </style>
+
+  <script src="/validation.js" type="text/javascript"></script>
+</head>
+<body>
+  <div  class="loginform">
+  <form name="frm" action="/validate" method="POST" onsubmit="return loginForm()">
+    <h1>Login</h1>
+
+    <input type="text" name="username" id="username" placeholder="Enter Username" oninput="validationName(this.value)">
+    <span id="nmsg"></span><br><br>
+
+    <input type="text" name="password" id="password" placeholder="Enter Password" oninput="validatePassword(this.value)">
+    <span id="pmsg"></span><br><br>
+
+    <select name="type" class="form-control" style="width:380px; height:40px;" >
+      <option value="" disabled selected hidden>Select Role</option>
+      <option value="Admin">Admin</option>
+      <option value="User">User</option>
+    </select><br><br>
+
+    <input type="submit" name="s" value="Login"><br><br>
+
+    <p class="toggle-link">Don't have an account? <a href="/signup">Register</a></p>
+
+    <!-- Form-level error message -->
+    <span id="h"></span>
+  </form>
+  </div>
+</body>
+</html>

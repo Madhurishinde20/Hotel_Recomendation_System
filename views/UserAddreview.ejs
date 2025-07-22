@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add City</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"/>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .box {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      width: 40%;
+      padding: 40px;
+      margin: 60px auto;
+      background-color: #fff;
+    }
+
+    .form-control {
+      height: 45px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .alert {
+      margin-bottom: 25px;
+      text-align: center;
+      color: white;
+      background: #43cea2;
+      background: -webkit-linear-gradient(to right, #185a9d, #43cea2);
+      background: linear-gradient(to right, #185a9d, #43cea2);
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      padding: 12px;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      gap: 15px; /* Space between buttons */
+    }
+
+    .btn-submit-city {
+      background: #43cea2;
+      background: -webkit-linear-gradient(to right, #185a9d, #43cea2);
+      background: linear-gradient(to right, #185a9d, #43cea2);
+      color: #fff;
+      font-weight: 600;
+      width: 150px;
+      height: 45px;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      line-height: 45px;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-submit-city:hover {
+      background-color: #185a9d;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .box {
+        width: 90%;
+      }
+
+      .btn-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .btn-submit-city {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h4 class="text-center text-uppercase mb-4" style="color:#185a9d;">ADD REVIEW</h4>
+
+    <form action="/savereview" method="post">
+
+      <div class="form-group">
+        <input type="text" class="form-control" id="city" name="rev_text" placeholder="Enter Review" required />
+      </div>
+
+      <div class="form-group">
+        <input type="number" class="form-control" id="rating" name="rating" placeholder="Enter Rating (1 to 5)" min="1" max="5" step="1" required />
+      </div>
+
+      <div class="form-group">
+        <input type="date" class="form-control" id="pincode" name="rev_date" placeholder="Review Date" required />
+      </div>
+
+      <!-- Message Box -->
+      <% if (msg) { %>
+        <div class="alert" role="alert">
+          <strong><%= msg %></strong>
+        </div>
+      <% } %>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <input type="submit" class="btn-submit-city" value="Add Review"/>
+        <a href="/" class="btn-submit-city"><i class="fas fa-arrow-left mr-1"></i>Back</a>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

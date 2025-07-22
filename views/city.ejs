@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>City</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"/>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .box {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      width: 60%;
+      padding: 40px;
+      margin: 60px auto;
+      background-color: lavender;
+    }
+
+    .form-control {
+      height: 45px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center; 
+      gap: 15px; 
+    }
+
+    .btn-orange {
+      background-color: purple;
+      color: #fff;
+      font-weight: 600;
+      width: 150px;
+      height: 45px;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      line-height: 45px;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-orange:hover {
+      background-color:rgb(156, 81, 156);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .box {
+        width: 90%;
+      }
+      .btn-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      .btn-orange {
+        width: 100%;
+      }
+    }
+
+    small.error {
+      color: red;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h4 class="text-center text-uppercase mb-4" style="color:purple;">Add New City</h4>
+
+    <form id="cityForm" action="/cityadd" method="post" novalidate>
+      <div class="form-group">
+        <input type="text" class="form-control" id="city" name="city_name" placeholder="Enter City Name" required />
+        <small id="cityError" class="error">City name must start with an alphabet.</small>
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter Pincode" required />
+        <small id="pincodeError" class="error">Pincode must be 6 digits and contain no alphabets.</small>
+      </div>
+
+      <div class="btn-row">
+        <input type="submit" class="btn-orange" value="Add City"/>
+      </div>
+    </form>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("cityForm");
+      const cityInput = document.getElementById("city");
+      const pincodeInput = document.getElementById("pincode");
+      const cityError = document.getElementById("cityError");
+      const pincodeError = document.getElementById("pincodeError");
+
+      form.addEventListener("submit", function (event) {
+        let isValid = true;
+        const cityName = cityInput.value.trim();
+        const pincode = pincodeInput.value.trim();
+
+        // City must start with a letter (A-Z or a-z)
+        const cityRegex = /^[A-Za-z]/;
+        if (!cityRegex.test(cityName)) {
+          cityError.style.display = "block";
+          isValid = false;
+        } else {
+          cityError.style.display = "none";
+        }
+
+        // Pincode must be exactly 6 digits
+        const pinRegex = /^[0-9]{6}$/;
+        if (!pinRegex.test(pincode)) {
+          pincodeError.style.display = "block";
+          isValid = false;
+        } else {
+          pincodeError.style.display = "none";
+        }
+
+        if (!isValid) {
+          event.preventDefault(); // prevent submission
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

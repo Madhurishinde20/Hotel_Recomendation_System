@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hotel Admin Template</title>
+  <link rel="stylesheet" href="styleHotelDash.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="./ajax.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 10px 16px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
+
+    .search-bar {
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .search-bar input {
+      width: 100%;
+      max-width: 300px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .navbar {
+      background: #ffffff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 600;
+      color: #FFA500;
+      flex-shrink: 0;
+    }
+
+    .nav {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      padding: 8px 16px;
+      font-size: 15px;
+      background: #e0e7ff;
+      color: #333;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #43cea2;
+      color: #fff;
+    }
+
+    .price-btn {
+      padding: 8px 16px;
+      background-color: #e0e7ff;
+      color: #333;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .price-btn:hover {
+      background-color: #43cea2;
+      color: white;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: relative;
+      z-index: 10;
+      min-width: 180px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      padding: 10px;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 8px 12px;
+      color: #333;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f2f2f2;
+    }
+
+    #c, #a {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+    }
+
+    #c.show, #a.show {
+      display: block;
+    }
+
+    #c select, #a select {
+      width: 200px;
+      padding: 6px 10px;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+
+    .iframe-wrapper {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .iframe-wrapper iframe {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 200px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      display: block;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .hidediv {
+      display: none;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .price-heading {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+
+    .price-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .price-tag {
+      padding: 10px 18px;
+      border: 1px solid #ccc;
+      border-radius: 999px;
+      font-size: 14px;
+      color: #333;
+      background-color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .price-tag:hover {
+      border-color: #4e54c8;
+      color: #4e54c8;
+    }
+
+    .done-btn {
+      padding: 10px 28px;
+      background-color: #aa00aa;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    .product-count {
+      text-align: center;
+      margin-top: 10px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+      }
+
+      .nav {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .nav-link {
+        width: 100%;
+        text-align: left;
+        padding: 10px;
+      }
+
+      #c, #a {
+        position: static;
+        margin: 10px;
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+
+      #c select, #a select {
+        width: 100%;
+      }
+
+      .datahotel{
+        width: 60%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search hotels..." onkeyup="searchHotel(this.value)" />
+  </div>
+
+  <nav class="navbar">
+    <ul class="nav">
+      <li class="nav-item"><a class="nav-link active" id="city" onclick="getdata()">Citywise</a></li>
+      <li class="nav-item"><a class="nav-link" id="are" onclick="getarea()">Areawise</a></li>
+      <li class="nav-item">
+        <a class="nav-link">Rating</a>
+        <div class="dropdown-content">
+          <a onclick="loadPage('rating_5.html', this)">6 Star</a>
+          <a onclick="loadPage('rating_4.html', this)">4 Star</a>
+          <a onclick="loadPage('rating_3.html', this)">3 Star</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link">Type</a>
+        <div class="dropdown-content">
+          <a onclick="loadPage('type_resort.html', this)">Resort</a>
+          <a onclick="loadPage('type_business.html', this)">Business Hotel</a>
+          <a onclick="loadPage('type_boutique.html', this)">Boutique</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <button onclick="toggleDiv()" class="price-btn">Price</button>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="hidediv" class="hidediv">
+    <div class="price-heading">PRICE</div>
+    <div class="price-options">
+      <div class="price-tag">₹ 0 - ₹ 99</div>
+      <div class="price-tag">₹ 100 - ₹ 149</div>
+      <div class="price-tag">₹ 150 - ₹ 199</div>
+      <div class="price-tag">₹ 200 - ₹ 249</div>
+      <div class="price-tag">₹ 250 - ₹ 299</div>
+      <div class="price-tag">₹ 300 - ₹ 399</div>
+      <div class="price-tag">₹ 400 - ₹ 499</div>
+      <div class="price-tag">₹ 500 - ₹ 599</div>
+      <div class="price-tag">Under ₹ 449</div>
+      <div class="price-tag">₹ 600 - ₹ 699</div>
+      <div class="price-tag">₹ 700 - ₹ 799</div>
+      <div class="price-tag">₹ 800 & Above</div>
+      <div class="price-tag">Under ₹ 99</div>
+      <div class="price-tag">Under ₹ 149</div>
+      <div class="price-tag">Under ₹ 199</div>
+      <div class="price-tag">Under ₹ 249</div>
+      <div class="price-tag">Under ₹ 299</div>
+      <div class="price-tag">Under ₹ 399</div>
+      <div class="price-tag">Under ₹ 499</div>
+    </div>
+    <button onclick="toggleDiv()" class="done-btn">Done</button>
+    <div class="product-count">1000+ Products</div>
+  </div>
+
+  <div id="c">
+    <select name="city_id" class="form-control" onchange="redirectToCity(this.value)" id="ns">
+      <option selected disabled>Select City</option>
+      <% Citdata.forEach((item, index) => { %>
+        <option value="<%= item.city_id %>"><%= item.city_name %></option>
+      <% }); %>
+    </select>
+  </div>
+
+  <div id="a">
+    <select name="area_id" class="form-control" id="area" required>
+      <option value="" disabled selected>Select Area</option>
+    </select>
+  </div>
+
+  <div class="datahotel">
+    <%if(filename!=="no")
+    {
+        %>
+                <%-include(filename)%>;
+        <%
+    }%>
+  </div>
+</div>
+
+<div class="iframe-wrapper">
+  <iframe id="contentFrame" src="" scrolling="yes"></iframe>
+</div>
+
+<script>
+  function loadPage(page, clickedLink) {
+    document.getElementById('contentFrame').src = page;
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+    });
+
+    if (clickedLink.closest('.dropdown-content')) {
+      clickedLink.closest('.nav-item').querySelector('.nav-link').classList.add('active');
+    } else {
+      clickedLink.classList.add('active');
+    }
+  }
+
+  document.getElementById("searchInput").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    const iframe = document.getElementById("contentFrame").contentWindow;
+    if (iframe && iframe.findHotelBySearch) {
+      iframe.findHotelBySearch(query);
+    }
+  });
+
+  function positionDropdown(triggerId, dropdownId) {
+    const trigger = document.getElementById(triggerId);
+    const dropdown = document.getElementById(dropdownId);
+    const rect = trigger.getBoundingClientRect();
+    dropdown.style.top ='${rect.bottom + window.scrollY}px';
+    dropdown.style.left = '${rect.left + window.scrollX}px';
+    dropdown.classList.toggle("show");
+  }
+
+  function getdata() {
+    document.getElementById("a").classList.remove("show");
+    positionDropdown("city", "c");
+  }
+
+  function getarea() {
+    document.getElementById("c").classList.remove("show");
+    positionDropdown("are", "a");
+  }
+
+  function toggleDiv() {
+    const div = document.getElementById('hidediv');
+    div.style.display = (div.style.display === 'none' || div.style.display === '') ? 'block' : 'none';
+  }
+
+  function redirectToCity(cityId) {
+    if (cityId) {
+      window.location.href = '/getFilterCity?id=${cityId}';
+    }
+  }
+
+</script>
+</body>
+</html>

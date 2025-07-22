@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amenities List</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      padding: 25px;
+      margin: 50px auto;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      max-width: 95%;
+    }
+
+    .form-group {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .page-heading {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      color: #4e54c8;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    thead {
+      background: linear-gradient(to right, #185a9d, #43cea2);
+      color: white;
+    }
+
+    th, td {
+      padding: 14px 10px;
+      text-align: center;
+      font-size: 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    tbody tr {
+      background-color: #f9f9f9;
+      transition: background-color 0.2s;
+    }
+
+    tbody tr:hover {
+      background-color: #eef1ff;
+    }
+
+    a {
+      color: #4e54c8;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: #8f94fb;
+      text-decoration: underline;
+    }
+
+    .pagination-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .pagination li {
+      margin: 0 3px;
+    }
+
+    .pagination li a {
+      color: #4e54c8;
+      font-weight: bold;
+    }
+
+    .pagination .active a {
+      background-color: #4e54c8;
+      color: #fff;
+      border-color: #4e54c8;
+    }
+
+    @media (max-width: 576px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead tr {
+        display: none;
+      }
+
+      tbody tr {
+        margin-bottom: 15px;
+        background: #f4f4f4;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+      }
+
+      td {
+        text-align: left;
+        padding: 8px 12px;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+        color: #4e54c8;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-group mt-5">
+    <h1 class="page-heading">AMENITIES LIST</h1>
+  </div>
+
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>AMENITY_ID</th>
+          <th>AMENITY_NAME</th>
+          <th>DELETE</th>
+          <th>UPDATE</th>
+        </tr>
+      </thead>
+      <tbody id="tblBody1">
+        <% if (Amenitiesdata.length === 0) { %>
+          <tr>
+            <td colspan="4">There is no data present in table.</td>
+          </tr>
+        <% } else { Amenitiesdata.forEach((item, index) => { %>
+          <tr>
+            <td data-label="AMENITY_ID"><%= index + 1 %></td>
+            <td data-label="AMENITY_NAME"><%= item.amenity_name %></td>
+            <td data-label="DELETE">
+              <a href="/deleteAmenitiesById?amenityid=<%= item.amenity_id %>" onclick="return confirm('Are you sure you want to delete this image?');" style="color:red">Delete</a>
+            </td>
+            <td data-label="UPDATE">
+              <a href="/updateAmenityForm?amenityid=<%= item.amenity_id %>" style="color:green">Update</a>
+            </td>
+          </tr>
+        <% }); } %>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <ul id="pagination" class="pagination justify-content-center"></ul>
+    </div>
+  </div>
+
+  <!-- Pagination Script -->
+  <script>
+    const rowsPerPage = 5;
+    const table = document.getElementById("tblBody1");
+    const rows = table.querySelectorAll("tr");
+    const pagination = document.getElementById("pagination");
+    let currentPage = 1;
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+    function displayRows(page) {
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      rows.forEach((row, index) => {
+        row.style.display = index >= start && index < end ? "" : "none";
+      });
+    }
+
+    function setupPagination() {
+      pagination.innerHTML = "";
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement("li");
+        li.className = page-item ${i === currentPage ? "active" : ""};
+        li.innerHTML = <a class="page-link" href="#">${i}</a>;
+        li.addEventListener("click", function(e) {
+          e.preventDefault();
+          currentPage = i;
+          displayRows(currentPage);
+          setupPagination();
+        });
+        pagination.appendChild(li);
+      }
+    }
+
+    if (rows.length > 0) {
+      displayRows(currentPage);
+      setupPagination();
+    }
+  </script>
+</body>
+</html>

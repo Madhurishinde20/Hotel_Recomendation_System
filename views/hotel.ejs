@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotel Master Form</title>
+  <style>
+    .form-container {
+      background:rgb(241, 234, 241);
+      padding: 35px 30px;
+      margin: 40px auto;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 800px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h2 {
+      text-align: center;
+      color:purple;
+      margin: 10px 0 30px;
+      font-size: 35px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      border-bottom: 2px solid black;
+      padding-bottom: 10px;
+    }
+
+    .form-row {
+      display: flex;
+      gap:60px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #34495e;
+      font-size:20px;
+    }
+
+    input,
+    select {
+      width:90%;
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1.8px solid gray;
+      border-radius: 8px;
+      background-color: #fdfdfd;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 4px #a3d0f7;
+      background-color: #ffffff;
+      outline: none;
+    }
+
+    .error {
+      color: #e74c3c;
+      font-size: 13px;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    button,
+    input[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      background-color: purple;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out, transform 0.2s;
+      margin-top: 10px;
+    }
+
+    button:hover,
+    input[type="submit"]:hover {
+      background: linear-gradient(to right, #92fe9d, #00c9ff);
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 25px 20px;
+        margin: 20px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .form-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+
+  <h2>Hotel Details Form</h2>
+  <form method="POST" action="/addhotel" name="frm" id="hotelForm">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="hotel_name">Hotel Name</label>
+        <input type="text" id="hotel_name" name="hotel_name" maxlength="200">
+        <div class="error" id="error_hotel_name"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Hotel Address</label>
+        <input type="text" class="form-control" name="hotel_address" id="hotel_address" placeholder="Enter Hotel Address" />
+        <div class="error" id="error_hotel_address"></div>
+      </div>
+    </div>
+
+     <div class="form-row">
+      <div class="form-group">
+        <label for="hotel_email">Hotel Email</label>
+        <input type="email" id="hotel_email" name="hotel_email">
+        <div class="error" id="error_hotel_email"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="hotel_contact">Hotel Contact</label>
+        <input type="tel" id="hotel_contact" name="hotel_contact" maxlength="10">
+        <div class="error" id="error_hotel_contact"></div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>City</label>
+        <select name="city_id" id="city_id" class="form-control" onchange="fetcharea(this.value)" style="width: 360px;">
+          <option selected disabled>Select City</option>
+          <% data.forEach((item, index) => { %>
+            <option value="<%= item.city_id %>"><%= item.city_name %></option>
+          <% }); %>
+        </select>
+        <div class="error" id="error_city_id"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Area</label>
+        <select name="area_id" class="form-control" id="area_id" style="width: 360px;">
+          <option selected disabled>Select Area</option>
+          <% Areadata.forEach((item, index) => { %>
+            <option value="<%= item.area_id %>"><%= item.area_name %></option>
+          <% }); %>
+        </select>
+        <div class="error" id="error_area_id"></div>
+      </div>
+
+    </div>
+
+   <div class="form-row">
+  <div class="form-group">
+    <label for="amenities">Select Amenities</label>
+    <select id="amenities" name="amenities[]" class="form-control" multiple required style="width: 360px; height: auto; padding: 10px;">
+      <% amenities.forEach(function(amenity) { %>
+        <option value="<%= amenity.amenity_id %>"><%= amenity.amenity_name %></option>
+      <% }) %>
+    </select>
+  </div>
+</div>
+
+
+
+    <input type="submit" value="Add Hotel">
+  </form>
+  <% if (msg) { %>
+  <div style="color: green; font-weight: bold;"><%= msg %></div>
+<% } %>
+
+</div>
+
+<script>
+  document.getElementById("hotelForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    let isValid = true;
+
+    function showError(id, message) {
+      document.getElementById("error_" + id).innerText = message;
+      isValid = false;
+    }
+
+    document.querySelectorAll(".error").forEach(el => el.innerText = "");
+
+    let hotel_name = document.getElementById("hotel_name").value.trim();
+    let hotel_address = document.getElementById("hotel_address").value.trim();
+    let city_id = document.getElementById("city_id").value;
+    let area_id = document.getElementById("area_id").value;
+    let hotel_email = document.getElementById("hotel_email").value.trim();
+    let hotel_contact = document.getElementById("hotel_contact").value.trim();
+
+    if (hotel_name === "") {
+      showError("hotel_name", "Hotel name is required.");
+    }
+
+    if (hotel_address === "") {
+      showError("hotel_address", "Hotel address is required.");
+    }
+
+    if (!city_id) {
+      showError("city_id", "Please select a city.");
+    }
+
+    if (!area_id) {
+      showError("area_id", "Please select an area.");
+    }
+
+    if (hotel_email === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(hotel_email)) {
+      showError("hotel_email", "Please enter a valid email address.");
+    }
+
+    if (!/^\d{10}$/.test(hotel_contact)) {
+      showError("hotel_contact", "Contact number must be 10 digits.");
+    }
+    if (isValid) {
+      alert("Form submitted successfully!");
+      this.submit();
+    }
+  });
+</script>
+
+</body>
+</html>

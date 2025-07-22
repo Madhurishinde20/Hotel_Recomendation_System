@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= hotel.hotel_name %> - Details</title>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <img src="/image/<%= hotel.filename %>" alt="Hotel Image">
+      <div class="card-content">
+        <h3><%= hotel.hotel_name %></h3>
+        <p class="address"><%= hotel.hotel_address %></p>
+        <p><%= hotel.city_name %> | <%= hotel.area_name %></p>
+        <div class="contact-row">
+          <span>Email: <%= hotel.hotel_email %></span><br>
+          <span>Contact: <%= hotel.hotel_contact %></span>
+        </div>
+        <p class="rating">Rating: <%= hotel.rating %> ⭐</p>
+        <p>Reviews: <%= hotel.reviewcount %></p>
+        <a href="/hotelview">🔙 Back</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

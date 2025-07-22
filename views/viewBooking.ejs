@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booked Details</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+    th, td { border: 1px solid #888; padding: 10px; text-align: center; }
+    th { background: #4B0082; color: white; }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">All Booking Details</h2>
+  <table>
+    <tr>
+      <th>Booking ID</th>
+      <th>User Name</th>
+      <th>Hotel Name</th>
+      <th>Room Type</th>
+      <!-- <th>Price</th> -->
+      <th>Check-in Date</th>
+      <th>Check-in Time</th>
+      <th>Check-out Date</th>
+      <th>Check-out Time</th>
+    </tr>
+    <% bookings.forEach(b => { %>
+      <tr>
+        <td><%= b.booking_id %></td>
+        <td><%= b.user_name %></td>
+        <td><%= b.hotel_name %></td>
+        <td><%= b.room_type %></td>
+        <!-- <td>₹<%= b.price %></td> -->
+        <td> <%= new Date(b.checkin_date).toISOString().split("T")[0] %></td>
+        <td> <%= b.checkin_time %>   </td>
+        <td><%= new Date(b.checkout_date).toISOString().split("T")[0] %></td>
+        <td><%= b.checkout_time %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>

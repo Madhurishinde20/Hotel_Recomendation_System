@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hotel Booking Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f6f6f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-image: url("hmbg1.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: -1;
+    }
+
+    .container {
+      width: 60%;
+      max-width: 650px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      padding: 25px 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-heading {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-heading h2 {
+      font-size: 24px;
+      color: #4B0082;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 12px 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 10px 25px;
+      background: linear-gradient(to right, #4c00824b, #340238, #e7e7c0);
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #3a0066;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+      }
+    }
+
+    /* Modal Styles */
+    .custom-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 30px 25px;
+      border-radius: 15px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #4B0082;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .pay-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      padding: 12px 15px;
+      border: 2px solid #4B0082;
+      border-radius: 8px;
+      background-color: #f8f8f8;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .pay-btn:hover {
+      background-color: #e0d3f8;
+      transform: scale(1.02);
+    }
+
+    .pay-btn img {
+      height: 30px;
+      width: 30px;
+    }
+
+    .success {
+      background-color: #e6ffe6;
+      border: 2px solid #00a300;
+    }
+
+    .tick-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <form action="/saveBookingForm" method="POST">
+    <div class="form-heading">
+      <h2>Booking Details</h2>
+    </div>
+
+    <div class="row">
+  <div class="column">
+     <div class="form-group">
+    <label>Hotel Name</label>
+      <input type="text" name="hotel_name" id="hotel_name" 
+       value="<%= hotels && hotels.length > 0 ? hotels[0].hotel_name : '' %>">
+  </div>  
+
+   <input type="hidden" name="hotel_id" value="<%= hotels && hotels.length > 0 ? hotels[0].hotel_id : '' %>">
+
+   <div class="form-group">
+       <label for="user_name">User Name</label>
+       <input type="text" name="user_name" id="user_name" value="<%= user && user.name ? user.name : '' %>">
+   </div>
+
+ <div class="form-group">
+  <label for="room_type">Room Type</label>
+   <select name="room_id" id="room_type" required>
+    <option value="">-- Select Room Type --</option>
+    <option value="1" data-price="1000">Single Room</option>
+    <option value="2" data-price="1500">Double Room</option>
+    <option value="3" data-price="2000">King Room</option>
+    <option value="4" data-price="1800">Queen Room</option>
+    <option value="5" data-price="2500">Deluxe Room</option>
+    <option value="6" data-price="2200">AC Room</option>
+    <option value="7" data-price="1700">Non-AC Room</option>
+    <option value="8" data-price="3000">Family Suite</option>
+  </select>
+</div>
+
+
+  <div class="form-group">
+     <label for="price">Price</label>
+    <input type="text" name="price" id="price" readonly>
+  </div>
+
+      <div class="column">
+        <div class="form-group">
+          <label for="booking_date">booking  Date</label>
+          <input type="date" name="booking_date" required>
+        </div>
+
+
+      <div class="column">
+        <div class="form-group">
+          <label for="checkin_date">Check-in Date</label>
+          <input type="date" name="checkin_date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="checkout_date">Check-out Date</label>
+          <input type="date" name="checkout_date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="checkin_time">Check-in Time</label>
+          <input type="time" name="checkin_time" required>
+        </div>
+
+        <div class="form-group">
+          <label for="checkout_time">Check-out Time</label>
+          <input type="time" name="checkout_time" required>
+        </div>
+
+        </div>
+        
+    <div class="btn-container">
+      <button class="btn" type="submit">Book Now</button>
+    </div>
+  </div>
+  </div>
+  </form>
+</div>
+
+<!-- Payment Modal -->
+<div id="paymentModal" class="custom-modal">
+  <div class="modal-content">
+    <h3>Select Payment Method</h3>
+    <div class="payment-options">
+      <button class="pay-btn" data-method="Google Pay">
+       <img src="UPInew.jpg" alt="GPay">
+        <span>Google Pay</span>
+      </button>
+      <button class="pay-btn" data-method="Card">
+        <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" alt="Card">
+        <span>Credit/Debit Card</span>
+      </button>
+      <button class="pay-btn" data-method="Cash">
+        <img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" alt="Cash">
+        <span>Cash</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="custom-modal">
+  <div class="modal-content success">
+    <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="Success Tick" class="tick-icon">
+    <h3>Booking Successfully!</h3>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector("form");
+  const bookBtn = document.querySelector(".btn");
+  const paymentModal = document.getElementById("paymentModal");
+  const successModal = document.getElementById("successModal");
+  const payButtons = document.querySelectorAll(".pay-btn");
+
+  const hotelSelect = document.getElementById("hotelSelect");
+  const roomSelect = document.getElementById("room_type");
+  const priceInput = document.getElementById("price");
+  const checkinDateInput = document.querySelector("input[name='checkin_date']");
+  const checkoutDateInput = document.querySelector("input[name='checkout_date']");
+  const checkinTimeInput = document.querySelector("input[name='checkin_time']");
+  const checkoutTimeInput = document.querySelector("input[name='checkout_time']");
+
+  // Set price based on room
+  roomSelect.addEventListener("change", function () {
+    const selectedOption = roomSelect.options[roomSelect.selectedIndex];
+    const price = selectedOption.getAttribute("data-price");
+    priceInput.value = price ? `₹${price}` : "";
+  });
+
+  // Validate before showing payment modal
+  bookBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const today = new Date();
+    const checkinDateVal = checkinDateInput.value;
+    const checkoutDateVal = checkoutDateInput.value;
+    const checkinTimeVal = checkinTimeInput.value;
+    const checkoutTimeVal = checkoutTimeInput.value;
+
+    // Validation
+    if (!roomSelect.value) {
+      alert("Please select a room type.");
+      return;
+    }
+
+    if (!checkinDateVal || !checkoutDateVal) {
+      alert("Please enter both check-in and check-out dates.");
+      return;
+    }
+
+    if (!checkinTimeVal || !checkoutTimeVal) {
+      alert("Please enter both check-in and check-out times.");
+      return;
+    }
+
+    const checkin = new Date(`${checkinDateVal}T${checkinTimeVal}`);
+    const checkout = new Date(`${checkoutDateVal}T${checkoutTimeVal}`);
+
+    // Check-in in the past
+    if (checkin < today) {
+      alert("Check-in date and time cannot be in the past.");
+      return;
+    }
+
+    // Check-out after check-in
+    if (checkout <= checkin) {
+      alert("Check-out must be after check-in.");
+      return;
+    }
+
+    // Show payment modal if valid
+    paymentModal.style.display = "flex";
+  });
+
+  // Handle payment
+  payButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const method = this.getAttribute("data-method");
+      paymentModal.style.display = "none";
+      successModal.style.display = "flex";
+
+      setTimeout(() => {
+        successModal.style.display = "none";
+        form.submit(); // Automatically submits form
+      }, 2000);
+    });
+  });
+
+  // Hide modals on outside click
+  window.addEventListener("click", function (e) {
+    if (e.target === paymentModal) {
+      paymentModal.style.display = "none";
+    }
+    if (e.target === successModal) {
+      successModal.style.display = "none";
+    }
+  });
+
+  // ✅ Additional Code: Fetch rooms when hotel is selected
+  hotelSelect.addEventListener("change", function () {
+    const hotelId = hotelSelect.value;
+    if (!hotelId) {
+      roomSelect.innerHTML = `<option value="">-- Select Room Type --</option>`;
+      priceInput.value = "";
+      return;
+    }
+
+    fetch(`/getrooms?hotel_id=${hotelId}`)
+      .then(res => res.json())
+      .then(data => {
+        roomSelect.innerHTML = `<option value="">-- Select Room Type --</option>`;
+        data.forEach(room => {
+          const option = document.createElement("option");
+          option.value = room.room_id;
+          option.textContent = room.room_type;
+          option.setAttribute("data-price", room.price);
+          roomSelect.appendChild(option);
+        });
+        priceInput.value = "";
+      })
+      .catch(err => {
+        alert("Error fetching rooms");
+        console.error(err);
+      });
+  });
+</script>
+</body>
+</html>

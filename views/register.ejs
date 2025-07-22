@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registeration </title>
+  <style>
+    
+.loginform {
+  margin: 20px 40px;
+  background-color: hwb(224 63% 17% / 0.886);
+  margin-left: 100px;;
+  padding: 40px;
+  width: 80%;
+  height: 600px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(100, 149, 237, 0.6); /* cornflowerblue shadow */
+}
+
+form {
+  width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #fdf5e6;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+  font-family: Arial, sans-serif;
+}
+
+form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="submit"] {
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #999;
+  margin-top: 5px;
+}
+
+form input[type="submit"] {
+  width:375px;
+  background-color:rgb(175, 175, 234);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+  background-color: #d2b48c;
+}
+
+.toggle-link {
+  text-align: center;
+  display: block;
+  margin-top: 10px;
+  color: black;
+  font-weight: bold;
+}
+
+.toggle-link a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.toggle-link a:hover {
+  text-decoration: underline;
+}
+  </style>
+
+  <script src="/validation.js" type="text/javascript"></script>
+
+</head>
+<body>
+  <div class="loginform">
+  <form name="frm" action="/savereg" method="POST" onsubmit="return submitForm()">
+
+    <input type="text" name="username" id="name" placeholder="Enter Name" oninput="validationName(this.value)"><br><br>
+    <span id="nmsg"></span>
+
+    <input type="text" name="useremail" id="email" placeholder="Enter Email" oninput="validateEmail(this.value)"><br><br>
+    <span id="emsg"></span>
+
+    <input type="text" name="password" id="password" placeholder="Enter Password" oninput="validatePassword(this.value)"><br><br>
+    <span id="pmsg"></span>
+
+    <input type="text" name="contact" id="contact" placeholder="Enter Contact Number" oninput="validateContact(this.value)"><br><br>
+    <span id="cmsg"></span>
+
+     <input type="text" name="type" value="User" readonly /><br><br>
+
+    <input type="submit" value="Register" />
+    <br><br>
+    <p id="h"></p>
+    <p class="toggle-link">Already have an account? <a href="/signin">Login</a></p>
+  </form>
+  </div>
+</body>
+</html>

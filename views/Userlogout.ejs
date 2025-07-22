@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logout</title>
+  <style>
+    .logoutform {
+      margin: 20px 40px;
+      background-color: hwb(224 63% 17% / 0.886);
+      margin-left: 100px;
+      padding: 40px;
+      width: 80%;
+      height: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(100, 149, 237, 0.6);
+    }
+
+    form {
+      width: 400px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: #fdf5e6;
+      border: 1px solid lightgrey;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input[type="submit"] {
+      background-color: purple;
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #d2b48c;
+    }
+
+    a {
+      display: block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <div class="logoutform">
+    <form action="/logout" method="POST">
+      <h1>Are you sure you want to logout?</h1>
+      <input type="submit" value="Logout" />
+     <!-- <a href="/homePage">Cancel and Go Back</a>-->
+    </form>
+  </div>
+</body>
+</html>
