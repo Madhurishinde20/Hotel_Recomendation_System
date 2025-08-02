@@ -625,7 +625,8 @@ exports.HomePage = (req, res) => {
 //USER CTRL
 
 exports.userPanel=(req,res)=>{
-  res.render("userDashboard");
+   const user = req.session.user;
+  res.render("userDashboard",{ user });
 }
   
 exports.renderHotelSearchPage = (req, res) => {
@@ -731,8 +732,7 @@ exports.getRoomsByHotel = (req, res) => {
 
 // Save booking
 exports.saveBooking = async (req, res) => {
-  let h_id=req.query.hotelid;
-    console.log("Hotel ID from query:", h_id);
+  let h_id=req.query.hotel_id;
   const {
     hotel_id, room_id, user_name,
     price, booking_date, checkin_date, checkout_date,
@@ -740,7 +740,6 @@ exports.saveBooking = async (req, res) => {
   } = req.body;
 
   try {
-    console.log("username:" + user_name);
     let resultu = await model.getuserid(user_name);
     
     if (!resultu || !resultu.userid) {
@@ -748,11 +747,11 @@ exports.saveBooking = async (req, res) => {
       return res.send("Booking failed: User not found.");
     }
 
-    const insertSql = `INSERT INTO bookingmaster(
+    const insertSql = `insert into bookingmaster(
        userid, hotel_id, booking_date,
       checkin_date, checkin_time, checkout_date,
       checkout_time, room_id, user_name
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     db.query(insertSql, [
       resultu.userid,
@@ -771,14 +770,14 @@ exports.saveBooking = async (req, res) => {
       } else {
         // for hotel
         let hotels;
-        db.query('SELECT hotel_id, hotel_name FROM hotelmaster where hotel_id=?',[h_id],(err1, hotelResults) =>{
+        db.query('select hotel_id, hotel_name from hotelmaster where hotel_id=?',[h_id],(err1, hotelResults) =>{
           if(err1){
             console.log("the error",err1);
              return res.send("Booking succeeded, but hotel info failed.");
           }
          
         // ✅ Now fetch room data
-          db.query('SELECT * FROM roomsmaster', (err2, roomResult) => {
+          db.query('select * FROM roomsmaster', (err2, roomResult) => {
           if (err2) {
             console.error("Error fetching rooms:", err2);
             return res.send("Booking successful.");
@@ -826,7 +825,7 @@ exports.showBookingForm = (req, res) => {
 
 exports.viewBooking = (req, res) => {
   const sql = `
-    SELECT b.*, h.hotel_name, r.room_type
+    select b.*, h.hotel_name, r.room_type
     FROM bookingmaster b
     JOIN hotelmaster h ON b.hotel_id = h.hotel_id
     JOIN roomsmaster r ON b.room_id = r.room_id
@@ -889,53 +888,86 @@ exports.ViewReviewpage=(req,res)=>{
 	else
 	{
 		res.render("viewReview.ejs",{Reviewdata:result});
-
 	}
 });
 };
 
-exports.recommendation = (req, res) => {
-  let userId = req.query.userid;
+//Recommendation
+exports.recommendation = async (req, res) => {
+  const userId = req.params.userid;
+  console.log('Received userId:', userId);
 
-  if (!userId) {
-    return res.status(400).json({ error: "User ID is required" });
-  }
+  try {
+    // Step 1: Get user's most booked hotel and city
+    const userHotels = await db.query(
+      `SELECT bm.hotel_id, COUNT(*) AS freq, hm.city_id
+       FROM bookingmaster bm
+       JOIN hotelmaster hm ON bm.hotel_id = hm.hotel_id
+       WHERE bm.userid = ?
+       GROUP BY bm.hotel_id, hm.city_id
+       ORDER BY freq DESC
+       LIMIT 1`,
+      [userId]
+    );
 
-  let query = `
-    SELECT b.hotel_id, b.room_id, h.hotel_name, r.room_type, r.price
-    FROM bookingmaster b
-    JOIN hotels h ON b.hotel_id = h.hotel_id
-    JOIN rooms r ON b.room_id = r.room_id
-    WHERE b.userid = ?
-  `;
-
-  db.query(query, [userId], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: "Error fetching booking history" });
-    }
-
-    if (results.length === 0) {
-      return res.status(200).json({ message: "No booking history found for this user" });
-    }
+    console.log('userHotels result:', userHotels);
 
     let recommendedHotels = [];
-    let recommendedRooms = [];
 
-    results.forEach((booking) => {
-      if (!recommendedHotels.includes(booking.hotel_id)) {
-        recommendedHotels.push(booking.hotel_id);
-      }
+    if (userHotels.length > 0) {
+      const userHotel = userHotels[0];
 
-      if (!recommendedRooms.includes(booking.room_id)) {
-        recommendedRooms.push(booking.room_id);
-      }
+      // Step 2: Recommend other hotels in the same city
+      const sameCityHotels = await db.query(
+        `SELECT * FROM hotelmaster 
+         WHERE city_id = ? AND hotel_id != ?`,
+        [userHotel.city_id, userHotel.hotel_id]
+      );
+
+      console.log('sameCityHotels:', sameCityHotels);
+
+      // Step 3: Get the originally booked hotel
+      const originalHotelRows = await db.query(
+        `SELECT * FROM hotelmaster WHERE hotel_id = ?`,
+        [userHotel.hotel_id]
+      );
+
+      console.log('originalHotelRows:', originalHotelRows);
+
+      // Step 4: Combine recommended hotels
+      recommendedHotels = [...originalHotelRows, ...sameCityHotels];
+    } else {
+      console.log('User has no booking history.');
+    }
+
+    // Step 5: Fallback if no recommendations found
+    if (recommendedHotels.length === 0) {
+      const popularHotels = await db.query(
+        `SELECT hm.*
+         FROM bookingmaster bm
+         JOIN hotelmaster hm ON bm.hotel_id = hm.hotel_id
+         GROUP BY bm.hotel_id
+         ORDER BY COUNT(*) DESC
+         LIMIT 3`
+      );
+      recommendedHotels = popularHotels;
+      console.log('Fallback popularHotels:', popularHotels);
+    }
+
+    // Step 6: Render results
+    res.render('recommendation', {
+      hotels: recommendedHotels,
+      userid: userId,
+      message:
+        recommendedHotels.length === 0
+          ? 'No hotel recommendations available.'
+          : null,
     });
-
-    res.status(200).json({
-      recommendedHotels: recommendedHotels,
-      recommendedRooms: recommendedRooms,
-    });
-  });
+  } catch (error) {
+    console.error('Recommendation Error:', error.message);
+    console.error(error.stack);
+    res.status(500).send('Error generating recommendations.');
+  }
 };
 
 exports.logoutuser = (req, res) => {

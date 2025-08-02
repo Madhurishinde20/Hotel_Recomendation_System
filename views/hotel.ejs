@@ -3,22 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Hotel Master Form</title>
+
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
   <style>
+    body {
+      margin-top:-10px;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
     .form-container {
-      background:rgb(241, 234, 241);
+      background: rgb(243, 228, 243);
       padding: 35px 30px;
-      margin: 40px auto;
+      margin:30px auto;
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      width: 100%;
       max-width: 800px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     h2 {
       text-align: center;
-      color:purple;
-      margin: 10px 0 30px;
+      color: purple;
+      margin:-2px 0 20px;
       font-size: 35px;
       font-weight: 600;
       letter-spacing: 1px;
@@ -28,7 +37,7 @@
 
     .form-row {
       display: flex;
-      gap:60px;
+      gap: 60px;
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
@@ -37,6 +46,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      margin-bottom: 15px;
     }
 
     label {
@@ -44,12 +54,13 @@
       font-weight: 600;
       margin-bottom: 6px;
       color: #34495e;
-      font-size:20px;
+      font-size: 20px;
     }
 
     input,
-    select {
-      width:90%;
+    select,
+    .select2-container--default .select2-selection--multiple {
+      width: 90%;
       padding: 10px 14px;
       font-size: 15px;
       border: 1.8px solid gray;
@@ -59,11 +70,16 @@
     }
 
     input:focus,
-    select:focus {
+    select:focus,
+    .select2-selection--multiple:focus {
       border-color: #3498db;
       box-shadow: 0 0 4px #a3d0f7;
       background-color: #ffffff;
       outline: none;
+    }
+
+    .select2-container--default .select2-selection--multiple {
+      min-height: 44px;
     }
 
     .error {
@@ -90,7 +106,7 @@
 
     button:hover,
     input[type="submit"]:hover {
-      background: linear-gradient(to right, #92fe9d, #00c9ff);
+      background: linear-gradient(to right,rgb(158, 214, 216), #07adc0);
       transform: scale(1.02);
     }
 
@@ -106,6 +122,13 @@
 
       .form-row {
         flex-direction: column;
+        gap: 20px;
+      }
+
+      input,
+      select,
+      .select2-container {
+        width: 100% !important;
       }
     }
   </style>
@@ -113,7 +136,6 @@
 <body>
 
 <div class="form-container">
-
   <h2>Hotel Details Form</h2>
   <form method="POST" action="/addhotel" name="frm" id="hotelForm">
 
@@ -125,30 +147,30 @@
       </div>
 
       <div class="form-group">
-        <label>Hotel Address</label>
-        <input type="text" class="form-control" name="hotel_address" id="hotel_address" placeholder="Enter Hotel Address" />
-        <div class="error" id="error_hotel_address"></div>
-      </div>
-    </div>
-
-     <div class="form-row">
-      <div class="form-group">
         <label for="hotel_email">Hotel Email</label>
         <input type="email" id="hotel_email" name="hotel_email">
         <div class="error" id="error_hotel_email"></div>
       </div>
+      </div>
 
-      <div class="form-group">
+      <div class="form-row">
+        <div class="form-group">
         <label for="hotel_contact">Hotel Contact</label>
         <input type="tel" id="hotel_contact" name="hotel_contact" maxlength="10">
         <div class="error" id="error_hotel_contact"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Hotel Address</label>
+        <input type="text" name="hotel_address" id="hotel_address" placeholder="Enter Hotel Address" />
+        <div class="error" id="error_hotel_address"></div>
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group">
         <label>City</label>
-        <select name="city_id" id="city_id" class="form-control" onchange="fetcharea(this.value)" style="width: 360px;">
+        <select name="city_id" id="city_id" onchange="fetcharea(this.value)">
           <option selected disabled>Select City</option>
           <% data.forEach((item, index) => { %>
             <option value="<%= item.city_id %>"><%= item.city_name %></option>
@@ -159,7 +181,7 @@
 
       <div class="form-group">
         <label>Area</label>
-        <select name="area_id" class="form-control" id="area_id" style="width: 360px;">
+        <select name="area_id" id="area_id">
           <option selected disabled>Select Area</option>
           <% Areadata.forEach((item, index) => { %>
             <option value="<%= item.area_id %>"><%= item.area_name %></option>
@@ -167,31 +189,38 @@
         </select>
         <div class="error" id="error_area_id"></div>
       </div>
-
     </div>
 
-   <div class="form-row">
-  <div class="form-group">
-    <label for="amenities">Select Amenities</label>
-    <select id="amenities" name="amenities[]" class="form-control" multiple required style="width: 360px; height: auto; padding: 10px;">
-      <% amenities.forEach(function(amenity) { %>
-        <option value="<%= amenity.amenity_id %>"><%= amenity.amenity_name %></option>
-      <% }) %>
-    </select>
-  </div>
-</div>
-
-
+    <div class="form-group">
+      <label for="amenities">Select Amenities</label>
+      <select id="amenities" name="amenity_ids[]" multiple required>
+        <% amenities.forEach(amenity => { %>
+          <option value="<%= amenity.amenity_id %>"><%= amenity.amenity_name %></option>
+        <% }) %>
+      </select>
+      <small>(select multiple Amenities)</small>
+    </div>
 
     <input type="submit" value="Add Hotel">
   </form>
-  <% if (msg) { %>
-  <div style="color: green; font-weight: bold;"><%= msg %></div>
-<% } %>
 
+  <% if (msg) { %>
+    <div style="color: green; font-weight: bold;"><%= msg %></div>
+  <% } %>
 </div>
 
+<!-- jQuery + Select2 JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
+  $(document).ready(function () {
+    $('#amenities').select2({
+      placeholder: "Select amenities",
+      width: '100%'
+    });
+  });
+
   document.getElementById("hotelForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -234,6 +263,7 @@
     if (!/^\d{10}$/.test(hotel_contact)) {
       showError("hotel_contact", "Contact number must be 10 digits.");
     }
+
     if (isValid) {
       alert("Form submitted successfully!");
       this.submit();

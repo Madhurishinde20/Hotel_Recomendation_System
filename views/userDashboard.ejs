@@ -23,7 +23,6 @@
       overflow: hidden;
       
     }
-
     .navigation {
       display: flex;
       justify-content:center;
@@ -83,9 +82,8 @@
       height: calc(100vh - 70px);
       overflow: hidden;
     }
-
     .sidebar-user {
-      width: 220px;
+     width: 220px;
       background: rgba(0, 0, 0, 0.4);
       padding-top: 20px;
       color: #fff;
@@ -94,8 +92,8 @@
       top: 0;
       box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
       height: 100%;
-    }
 
+    }
     .sidebar-user ul {
       list-style: none;
       padding: 0;
@@ -114,7 +112,7 @@
     }
 
     .sidebar-user li:hover {
-      background-color: #00796b;
+      background-color: #684968;
     }
 
     .sidebar-user li:hover a {
@@ -229,7 +227,7 @@
       <ul>
          <li><a class="nav-link" href="/hotelsearch">🏨 Browse Hotels</a></li>
         <li><a class="nav-link" href="/addreview">⭐ Rating and Review</a></li>
-        <li><a class="nav-link" href="/user/recommendations">💡 Recommended</a></li>
+        <li><a class="nav-link" href="/recommendation/:userid">💡 Recommendation</a></li>
        <li><a class="nav-link" href="/logout-form">🚪 Logout</a></li>
       </ul>
     </aside>

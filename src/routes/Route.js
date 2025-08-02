@@ -123,7 +123,8 @@ router.post("/savereview",controller.SaveReview);
 router.get("/viewReview",controller.ViewReviewpage);
 
 //Recommendation
-router.get('/recommendations', controller.recommendation);
+
+router.get("/recommendation/:userid",controller.recommendation);
 
 // Logout dashboard
 router.get("/login", controller.regLogin);

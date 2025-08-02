@@ -4,75 +4,147 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registeration </title>
-  <style>
-    
-.loginform {
-  margin: 20px 40px;
-  background-color: hwb(224 63% 17% / 0.886);
-  margin-left: 100px;;
-  padding: 40px;
-  width: 80%;
-  height: 600px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(100, 149, 237, 0.6); /* cornflowerblue shadow */
+ <style>
+   body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('/image/ht.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
+    .loginform {
+      margin: 20px auto;
+      padding: 40px;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
 
-form {
-  width: 400px;
-  margin: 50px auto;
+    form {
+  width: 100%;
+  margin: 0 auto;
   padding: 30px;
-  background-color: #fdf5e6;
+  background-color: rgba(255, 255, 255, 0.8); /* This makes the form background semi-transparent */
   border: 1px solid lightgrey;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
-  font-family: Arial, sans-serif;
 }
+    form h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
 
-form h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="submit"],
+    select.form-control {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #999;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
 
-form input[type="text"],
-form input[type="password"],
-form input[type="submit"] {
-  width: 90%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #999;
-  margin-top: 5px;
-}
+    form input[type="submit"] {
+      background-color: purple;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
 
-form input[type="submit"] {
-  width:375px;
-  background-color:rgb(175, 175, 234);
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    form input[type="submit"]:hover {
+      background-color: #d2b48c;
+    }
 
-form input[type="submit"]:hover {
-  background-color: #d2b48c;
-}
+    /* Styled select to match other inputs */
+    select.form-control {
+      background-color: white;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+    }
 
-.toggle-link {
-  text-align: center;
-  display: block;
-  margin-top: 10px;
-  color: black;
-  font-weight: bold;
-}
+    select.form-control:focus {
+      outline: none;
+      border-color: cornflowerblue;
+      box-shadow: 0 0 5px rgba(100, 149, 237, 0.5);
+    }
 
-.toggle-link a {
-  color: #0077cc;
-  text-decoration: none;
-}
+    .toggle-link {
+      text-align: center;
+      display: block;
+      margin-top: 15px;
+      color: black;
+      font-weight: bold;
+    }
 
-.toggle-link a:hover {
-  text-decoration: underline;
-}
+    .toggle-link a {
+      color: blue;
+      text-decoration: none;
+    }
+
+    .toggle-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Tablet (max-width: 768px) */
+    @media (max-width: 768px) {
+      .loginform {
+        width: 90%;
+        padding: 20px;
+      }
+
+      form {
+        padding: 20px;
+      }
+
+      form input[type="text"],
+      form input[type="password"],
+      form input[type="submit"],
+      select.form-control {
+        width: 100%;
+        font-size: 16px;
+      }
+    }
+
+    /* Mobile (max-width: 480px) */
+    @media (max-width: 480px) {
+      .loginform {
+        width: 95% !important;
+        padding: 15px !important;
+        box-shadow: none;
+      }
+
+      form {
+        padding: 15px !important;
+      }
+
+      form h1 {
+        font-size: 20px !important;
+      }
+      form input[type="text"],
+      form input[type="password"],
+      form input[type="submit"],
+      select.form-control {
+        width: 100% !important;
+        font-size: 14px !important;
+      }
+
+      form input[type="submit"] {
+        padding: 10px !important;
+      }
+    }
   </style>
 
   <script src="/validation.js" type="text/javascript"></script>

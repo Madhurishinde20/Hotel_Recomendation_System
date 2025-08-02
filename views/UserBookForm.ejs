@@ -27,7 +27,7 @@
       left: 0;
       height: 100%;
       width: 100%;
-      background-image: url("hmbg1.jpg");
+      background-image: url("ht1.webp");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -59,11 +59,12 @@
 
     .form-heading {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom:-10px;
+    
     }
 
     .form-heading h2 {
-      font-size: 24px;
+      font-size:30px;
       color: #4B0082;
     }
 
@@ -113,22 +114,17 @@
 
     .btn {
       padding: 10px 25px;
-      background: linear-gradient(to right, #4c00824b, #340238, #e7e7c0);
+      background: linear-gradient(to right, #4c00824b, #340238, #dc94ec);
       border: none;
       border-radius: 5px;
       color: white;
       font-size: 15px;
       cursor: pointer;
+      width: 300px;
     }
 
     .btn:hover {
       background-color: #3a0066;
-    }
-
-    @media (max-width: 600px) {
-      .row {
-        flex-direction: column;
-      }
     }
 
     /* Modal Styles */
@@ -204,6 +200,66 @@
       from { opacity: 0; transform: scale(0.9); }
       to { opacity: 1; transform: scale(1); }
     }
+
+    @media (max-width: 600px) {
+  .container {
+    width: 100%;
+    padding: 20px 15px;
+  }
+
+  .form-heading h2 {
+    font-size: 22px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .column {
+    min-width: 100%;
+  }
+
+  .form-group label {
+    font-size: 13px;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .btn {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .modal-content {
+    padding: 20px;
+    width: 95%;
+  }
+
+  .modal-content h3 {
+    font-size: 18px;
+  }
+
+  .pay-btn {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .pay-btn img {
+    height: 25px;
+    width: 25px;
+  }
+
+  .tick-icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
   </style>
 </head>
 <body>

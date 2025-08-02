@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -76,23 +76,25 @@
 
 /* Dashboard Layout */
 .dashboard-container {
-  display: flex;
-  height: calc(100vh - 70px);
+ display: flex;
+      flex-wrap: nowrap;
+      height: calc(100vh - 70px);
+      overflow: hidden;
+
 }
 
 /* Sidebar */
 .sidebar {
-  width: 210px;
-  color:white;
-  padding-top: 20px;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.15);
-  overflow-y: auto;
+  width:100px;
+ 
 }
-
 .sidebar-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  width:230px;
+  padding-top: 20px;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  height: 100%;
 }
 
 .sidebar-menu li {
@@ -100,7 +102,8 @@
   font-size: 16px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid white;
+  
 }
 
 .sidebar-menu li a {
@@ -110,13 +113,10 @@
   gap: 8px;
   align-items: center;
 }
-
 .sidebar-menu li:hover {
     background-color:white;
-   
   
 }
-
 .sidebar-menu li:hover a {
   color:purple;
   font-weight: bold;
@@ -130,10 +130,8 @@
   color:black;
   overflow: auto;
   height: 100%;
-  margin-top:-10x;
-  
+  margin-top:-10x; 
 }
-
 .iframe-wrapper {
   width: 100%;
   height: 100%;
@@ -153,75 +151,7 @@
   background: transparent;
 }
 
-/* Responsive Layout */
-@media screen and (max-width: 991px) {
-  .navigation {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 20px;
-  }
 
-  .navigation h3 {
-    font-size: 24px;
-    margin: 10px 0;
-  }
-
-  .dashboard-container {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    border-right: none;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .sidebar-menu li {
-    justify-content: center;
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  .main-body {
-    padding: 25px 15px;
-    height: auto;
-  }
-
-  .iframe-wrapper {
-    height: 70vh;
-  }
-
-  .profile-icon {
-    font-size: 30px;
-  }
-
-  .profile-menu {
-    width: 90%;
-    right: 5%;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .sidebar-menu li {
-    font-size: 13px;
-    padding: 10px;
-  }
-
-  .navigation h3 {
-    font-size: 20px;
-  }
-
-  .main-body {
-    padding: 20px;
-  }
-
-  .iframe-wrapper {
-    height: 65vh;
-  }
-}
 </style>
 
   <!-- Font Awesome & Fonts -->
@@ -241,9 +171,9 @@
         <i class="fa fa-user-circle-o profile-icon" style="font-size:40px;"></i>
         <div class="profile-menu" id="profileMenu">
           <p><strong>Name:</strong>Madhuri</p>
-          <p><strong>Email:</strong> admin@gmail.com</p>
+          <p><strong>Email:</strong> madhuri@gmail.com</p>
           <p><strong>Role:</strong> Admin</p>
-          <a href="/logout">Logout</a>
+          <!-- <a href="logout">Logout</a> -->
         </div>
       </div>
     </div>
@@ -256,23 +186,23 @@
     <aside class="sidebar">
       <ul class="sidebar-menu">
         
-  <li><a class="nav-link active" onclick="loadPage('/hotelDash', this)"> 🏢 Hotels</a></li>
-	<li><a class="nav-link active" onclick="loadPage('/cityDash', this)">🌆 City</a></li>
-	<li><a class="nav-link active" onclick="loadPage('/areaDash', this)">📍Area</a></li>
-  <li><a class="nav-link active" onclick="loadPage('/amenitiesDash', this)">🛎️ Amenities</a></li>
-	<li><a class="nav-link active" onclick="loadPage('viewcustomer', this)">👥 Customer</a></li>
-	<li><a class="nav-link active" onclick="loadPage('viewReview', this)"> ⭐ Rating & Reviews</a></li>
+  <li><a class="nav-link active" href="/hotelDash"> 🏢 Hotels</a></li>
+	<li><a class="nav-link active" href="/cityDash">🌆 City</a></li>
+	<li><a class="nav-link active" href="/areaDash">📍Area</a></li>
+  <li><a class="nav-link active" href="/amenitiesDash">🛎️ Amenities</a></li>
+	<li><a class="nav-link active" href="viewcustomer">👥 Customer</a></li>
+	<li><a class="nav-link active" href="viewReview"> ⭐ Rating & Reviews</a></li>
    <li><a class="nav-link" href="/bookingDetails">📚 Bookings</a></li>
-	<li><a class="nav-link active" onclick="loadPage('/logout-form', this)">↩ Logout</a></li>
+  <li><a class="nav-link" href="/logout-form">🚪 Logout</a></li>
       </ul>
-
     </aside>
+
   <main class="main-body">
     
-<div class="iframe-wrapper">
+    <div class="iframe-wrapper">
       <iframe id="contentFrame" src="" scrolling="no"></iframe>
     </div>
-</main>
+   </main>
 
   </div>
 

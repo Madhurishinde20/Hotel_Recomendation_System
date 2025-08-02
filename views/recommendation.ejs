@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recommended Hotels</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .hotel-card {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 15px;
+      border-radius: 5px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Recommended Hotels for User ID: <%= userid %></h2>
+
+  <% if (hotels.length > 0) { %>
+    <% hotels.forEach(hotel => { %>
+      <div class="hotel-card">
+        <p><strong>Name:</strong> <%= hotel.hotel_name %></p>
+        <p><strong>Address:</strong> <%= hotel.hotel_address %></p>
+        <p><strong>City ID:</strong> <%= hotel.city_id %></p>
+      </div>
+    <% }); %>
+  <% } else { %>
+    <p>No hotel recommendations available.</p>
+  <% } %>
+
+</body>
+</html>
